@@ -4,6 +4,7 @@ Hi! there :wave:, Nice to meet you. Thanks for your time to look this little pro
 
 ## :rocket: Third Party Package Used
 - [Tymon JWT Auth](https://jwt-auth.readthedocs.io/en/develop/)
+- [Cloudinary](https://github.com/cloudinary-labs/cloudinary-laravel)
 
 ## :star: Contributor
 >:boy: [Rafi Septian Hadi](https://github.com/rafiseptian90) (owner)
