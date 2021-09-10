@@ -18,8 +18,8 @@ class CreateProfilesTable extends Migration
             $table->unsignedBigInteger("user_id");
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");
             $table->string("name");
-            $table->enum("gender", ["m", "f"]);
-            $table->string("photo");
+            $table->enum("gender", ["M", "F"]);
+            $table->string("photo")->default('users/default.png');
             $table->string("bio");
             $table->timestamps();
             $table->softDeletes();

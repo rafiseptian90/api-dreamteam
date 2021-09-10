@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProgrammingLanguagesTable extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateProgrammingLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('programming_languages', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("icon")->default("programming_languages/default.png");
+            $table->string('name');
+            $table->string('slug');
+            $table->string('icon')->default('tags/default.png');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +30,6 @@ class CreateProgrammingLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('programming_languages');
+        Schema::dropIfExists('tags');
     }
 }
