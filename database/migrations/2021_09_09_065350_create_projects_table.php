@@ -21,7 +21,7 @@ class CreateProjectsTable extends Migration
             $table->string("link")->nullable();
             $table->string("logo")->default("projects/default.png");
             $table->text("description");
-            $table->integer("viewed");
+            $table->integer("viewed")->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,6 +15,12 @@ class Project extends Model
         'owner_id', 'project_name', 'link', 'logo', 'description', 'viewed'
     ];
 
+    // replace key id to slug
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     /* Mutators */
     public function setNameAttribute($name){
         $this->attributes['slug'] = Str::slug($name);
@@ -27,6 +33,6 @@ class Project extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany(Tags::class, 'project_languages', 'project_id', 'tag_id');
+        return $this->belongsToMany(Tags::class, 'project_languages', 'project_id', 'tag_id')->withTimestamps();
     }
 }
