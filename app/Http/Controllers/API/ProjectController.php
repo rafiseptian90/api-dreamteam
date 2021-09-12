@@ -11,6 +11,11 @@ use Str;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        // add middleware
+        $this->middleware('auth.jwt', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
