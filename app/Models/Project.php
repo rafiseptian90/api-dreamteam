@@ -12,7 +12,11 @@ class Project extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'owner_id', 'project_name', 'link', 'logo', 'description', 'viewed'
+        'project_name', 'link', 'logo', 'description', 'viewed'
+    ];
+
+    protected $hidden = [
+        'id', 'owner_id', 'created_at', 'updated_at', 'deleted_at'
     ];
 
     // replace key id to slug
@@ -22,9 +26,15 @@ class Project extends Model
     }
 
     /* Mutators */
-    public function setNameAttribute($name){
+    public function setProjectNameAttribute($name){
         $this->attributes['slug'] = Str::slug($name);
-        $this->attributes['name'] = $name;
+        if(auth()->user())
+        {
+            $this->attributes['owner_id'] = auth()->user()->id;
+        } else {
+            $this->attributes['owner_id'] = 1;
+        }
+        $this->attributes['project_name'] = $name;
     } 
 
     /* Relationship */
@@ -33,6 +43,6 @@ class Project extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany(Tags::class, 'project_languages', 'project_id', 'tag_id')->withTimestamps();
+        return $this->belongsToMany(Tag::class, 'project_tags', 'project_id', 'tag_id')->withTimestamps();
     }
 }

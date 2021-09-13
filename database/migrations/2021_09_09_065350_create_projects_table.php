@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->unsignedBigInteger("owner_id");
             $table->foreign("owner_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");
+            $table->string("slug");
             $table->string("project_name");
             $table->string("link")->nullable();
             $table->string("logo")->default("projects/default.png");

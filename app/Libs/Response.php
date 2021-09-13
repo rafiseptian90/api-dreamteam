@@ -38,11 +38,10 @@ class Response {
    }
 
    // 403
-   public static function forbidden(string $msg, $data){
+   public static function forbidden(string $msg){
       return response()->json([
          'code_status' => HttpResponse::HTTP_FORBIDDEN,
-         'status' => $msg,
-         'data' => $data
+         'status' => $msg
       ], HttpResponse::HTTP_FORBIDDEN);
    }
 

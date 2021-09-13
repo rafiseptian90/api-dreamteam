@@ -15,6 +15,14 @@ class Profile extends Model
         'user_id', 'name', 'gender', 'photo', 'bio'
     ];
 
+    protected $hidden = [
+        'id',
+        'user_id',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     /* Relationship */
     public function user(){
         return $this->belongsTo(User::class, 'user_id');

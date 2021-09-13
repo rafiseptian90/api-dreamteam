@@ -28,4 +28,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1', 'namespace' => 'API'], fu
         Route::get('profile', 'AuthController@profile');
         Route::put('profile', 'AuthController@updateProfile');
     });
+
+    // Project endpoints
+    Route::apiResource('project', 'ProjectController');
 });

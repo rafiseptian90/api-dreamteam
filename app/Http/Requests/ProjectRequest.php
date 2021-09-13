@@ -24,10 +24,18 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
+            'slug' => 'unique:projects,slug',
             'project_name' => 'required|string|max:191|min:1',
             'link' => 'url',
             'logo' => 'image|mimes:jpg,jpeg,png,svg|max:10240',
             'description' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'slug.unique' => 'Project name already exists'
         ];
     }
 }
