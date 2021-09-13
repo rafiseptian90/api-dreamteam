@@ -18,9 +18,9 @@ class CreateProfilesTable extends Migration
             $table->unsignedBigInteger("user_id");
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");
             $table->string("name");
-            $table->enum("gender", ["M", "F"]);
+            $table->enum("gender", ["M", "F"])->nullable();
             $table->string("photo")->default('users/default.png');
-            $table->string("bio");
+            $table->string("bio")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

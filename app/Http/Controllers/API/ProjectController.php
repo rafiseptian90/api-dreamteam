@@ -23,7 +23,17 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest()->get();
+        // if user want to show only the project using technology they used
+        if(request()->query('technologies')){
+            $projects = Project::with(['owner', 'tags'])
+                                ->whereHas('tags', function($tag){
+                                    $tag->whereIn('tag_id', request()->query('technologies'));
+                                })
+                                ->latest()
+                                ->get();
+        } else {
+            $projects = Project::with(['owner', 'tags'])->latest()->get();
+        }
 
         Response::successWithData('Project has been loaded', $projects);
     }
@@ -44,7 +54,8 @@ class ProjectController extends Controller
             $requests['logo'] = $request->file('logo')->storeOnCloudinaryAs("projects", Str::slug($request->name))->getSecurePath();
         }
 
-        Project::create($requests);
+        $project = Project::create($requests);
+        $project->tags()->attach($request->tags);
 
         return Response::success('Project has been added');
     }
@@ -82,7 +93,14 @@ class ProjectController extends Controller
             $requests['logo'] = $request->file('logo')->storeOnCloudinaryAs('projects', Str::slug($request->name));
         }
 
+        // delete project tags
+        $project->tags()->delete();
+
+        // update the project
         $project->update($requests);
+
+        // add again project tags
+        $project->tags()->attach($request->tags);
 
         return Response::success('Project has been updated');
     }
@@ -95,6 +113,15 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // delete project logo
+        if($project->logo !== NULL){
+            cloudinary()->destroy('projects/' . $project->slug);
+            
+            $project->update([
+                'logo' => NULL
+            ]);
+        }
+
         $project->delete();
         $project->tags()->delete();
 
