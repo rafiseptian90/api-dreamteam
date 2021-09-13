@@ -2,6 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Libs\Response;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -38,4 +41,16 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            return Response::notFound("Data not found");
+        } else if($e instanceof AuthorizationException){
+            return Response::forbidden("Not authorized");
+        }
+
+        return parent::render($request, $e);
+    }
+
 }

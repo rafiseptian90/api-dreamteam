@@ -88,6 +88,9 @@ class ProjectController extends Controller
      */
     public function update(ProjectRequest $request, Project $project)
     {
+        // check policy
+        $this->authorize('delete', $project);
+        
         $requests = $request->all();
 
         if($request->hasFile('logo'))
@@ -121,9 +124,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        if($project->owner_id !== auth()->user()->id){
-            return Response::forbidden("Only owner can delete this project");
-        }
+        // check policy
+        $this->authorize('delete', $project);
 
         // delete project logo
         if($project->logo !== NULL){
